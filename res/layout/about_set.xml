@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffccff"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:id="@+id/set_channel"
+        android:layout_width="match_parent" 
+        android:layout_height="35dp"
+        android:text="通道设置"
+        />
+    
+    <RadioGroup
+        android:id="@+id/set_radioChannel"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        >
+        <RadioButton 
+            android:id="@+id/set_radioChannelAPI"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="标准API(通道1)"/>
+        <RadioButton 
+            android:id="@+id/set_radioChannelSpeaker"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="扬声器录音"/>
+    </RadioGroup>
+    
+    <TextView 
+        android:id="@+id/set_modle"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="录音模式"/>
+    <RadioGroup
+        android:id="@+id/set_radioModel"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+     	<RadioButton 
+     	    android:id="@+id/set_radioModelA"
+     	    android:layout_width="match_parent"
+     	    android:layout_height="35dp"
+     	    android:text="M模式"/>
+        <RadioButton 
+            android:id="@+id/set_radioModleM"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="A模式"/>
+     </RadioGroup>
+	<TextView 
+	    android:id="@+id/setDefault"
+	    android:layout_width="match_parent"
+	    android:layout_height="35dp"
+	    android:text="默认设置"/>
+	<RadioGroup
+        android:id="@+id/set_radioDefault"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+     	<RadioButton 
+     	    android:id="@+id/set_radioDefaultSDK"
+     	    android:layout_width="match_parent"
+     	    android:layout_height="35dp"
+     	    android:text="SDK"/>
+        <RadioButton 
+            android:id="@+id/set_radioDefaultLocal"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="本地"/>
+     </RadioGroup>
+</LinearLayout>

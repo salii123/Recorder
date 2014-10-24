@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	<TextView 
+	    android:id="@+id/aboutUs"
+	    android:layout_width="match_parent"
+	    android:height="35dp"
+	    android:textStyle="bold"
+	    android:text="关于我们"
+	    />
+	<TextView
+	    android:id="@+id/aboutUsContent"
+	    android:layout_width="match_parent"
+	    android:text="我们经过艰苦的努力，完成了可以使用的android项目，如有建议请随时联系我们。
+	    			  "/>
+	<TextView 
+	    android:id="@+id/aboutSoft"
+	    android:layout_width="match_parent"
+	    android:height="35dp"
+	    android:textStyle="bold"
+	    android:text="关于该软件"
+	    />
+	<TextView
+	    android:id="@+id/aboutSoftContent"
+	    android:layout_width="match_parent"
+	    android:text="version:1.0"/>
+	
+</LinearLayout>
