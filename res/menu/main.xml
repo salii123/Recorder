@@ -3,12 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.wy.recorder.MainActivity" >
 
-    <item
+    <!-- <item
         android:id="@+id/action_set"
         android:title="@string/action_set"
-        app:showAsAction="withText|ifRoom"/>
-
-
+        app:showAsAction="withText|ifRoom"/> -->
+	
+	<item 
+	    android:id="@+id/menu_search"
+	    android:icon="@drawable/searchfileitem"
+	    android:title="@string/search_title"
+	    android:showAsAction="always"
+	    android:actionViewClass="android.widget.SearchView"
+	   />
    
 
 </menu>

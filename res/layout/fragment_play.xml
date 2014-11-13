@@ -1,35 +1,106 @@
-<fragment
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/playFragment"
-    android:layout_width="match_parent"
-    android:layout_height="230dp"
-    android:layout_centerInParent="true"
-    android:layout_centerVertical="true" > 
-    
-    <FrameLayout
+    android:id="@+id/mainFragment"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffccff"
+    android:clickable="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.wy.recorder.MainActivity$PlaceholderFragment" >
+
+    <Button
+        android:id="@+id/btnRecord"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:background="#ffccff"
+        android:text="@string/main_record" />
+
+    <Button
+        android:id="@+id/btnPlay"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:background="#ffccff"
+        android:text="@string/main_play" />
+
+    <LinearLayout
         android:id="@+id/playFL"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnPlay"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
-        <text
+        <TextView
             android:id="@+id/playPath"
-            android:layout_width="match_parent" 
-            android:layout_height="30dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#ffccff"
+            android:textSize="20sp"
+            android:text="ddddddddddddddd" />
 
         <ListView
-            android:id="@+id/playList"
+            android:id="@+id/android:list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="320dp"
             android:background="#ffccff"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
-            android:dividerHeight="0.5dp"
+            android:dividerHeight="1.5dp"
             tools:context="com.wy.recorder.NavigationDrawerFragment" >
+
         </ListView>
+    </LinearLayout>
+<!-- 	<RelativeLayout
+            android:id="@+id/AbsoluteLayout02"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" > -->
+    <Button
+        android:id="@+id/stop"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekbar"
+        android:background="@drawable/stop"
+        android:text="停止" >
+    </Button>
 
-    </FrameLayout>
+    <Button
+        android:id="@+id/start"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekbar"
+        android:layout_centerHorizontal="true"
+        android:text="播放" >
+    </Button>
 
-</fragment> 
+    <Button
+        android:id="@+id/pause"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/seekbar"
+        android:text="暂停" >
+    </Button>
+
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+
+        <TextView
+            android:id="@+id/currtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"  />
+</RelativeLayout>

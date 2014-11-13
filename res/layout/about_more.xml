@@ -2,23 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical" >
     
 	<TextView 
 	    android:id="@+id/aboutUs"
 	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
 	    android:height="35dp"
 	    android:textStyle="bold"
 	    android:text="关于我们"
 	    />
 	<TextView
 	    android:id="@+id/aboutUsContent"
+	     android:height="35dp"
 	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
 	    android:text="我们经过艰苦的努力，完成了可以使用的android项目，如有建议请随时联系我们。
 	    			  "/>
 	<TextView 
 	    android:id="@+id/aboutSoft"
 	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
 	    android:height="35dp"
 	    android:textStyle="bold"
 	    android:text="关于该软件"
@@ -26,6 +31,8 @@
 	<TextView
 	    android:id="@+id/aboutSoftContent"
 	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	     android:height="35dp"
 	    android:text="version:1.0"/>
 	
 </LinearLayout>

@@ -1,8 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainFragment"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#ffccff"
+    android:gravity="top"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -27,24 +29,52 @@
         android:background="#ffccff"
         android:text="@string/main_play" />
 
-   <fragment 
-       android:name="com.wy.recorder.ToRecordFragment"
+   <LinearLayout
        android:id="@+id/mFG"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_above="@+id/chronometer1"
+       android:layout_below="@+id/btnRecord"
+       android:layout_gravity="center_vertical"
+       android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/imgRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:contentDescription="@string/main_play"
+                android:src="@drawable/record" />
+
+     </LinearLayout>
+   
+	<Chronometer
+        android:id="@+id/chronometer1"
         android:layout_width="match_parent"
-        android:layout_height="430dp"
-        android:layout_above="@+id/btnRun"
-        android:layout_below="@+id/btnRecord"
-        android:layout_centerVertical="true"
-        tools:layout="@layout/fragment_record"
-       /> 
+        android:layout_height="50dp"
+        android:layout_above="@+id/btnDelete"
+        android:layout_centerHorizontal="true"
+        android:text="Chronometer" />
+	
     <Button
-        android:id="@+id/btnVolume"
+        android:id="@+id/btnSave"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/save"
+        android:onClick="showPlay" />
+
+    <Button
+        android:id="@+id/btnDelete"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/right"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/delete"
         android:onClick="showPlay" />
 
     <Button
@@ -52,19 +82,10 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btnPlay"
+        android:layout_alignBaseline="@+id/btnDelete"
+        android:layout_alignBottom="@+id/btnDelete"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/run"
-        android:onClick="showPlay" />
-
-    <Button
-        android:id="@+id/btnFileList"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/right"
         android:onClick="showPlay" />
 
 </RelativeLayout>

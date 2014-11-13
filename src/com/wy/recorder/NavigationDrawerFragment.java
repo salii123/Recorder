@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
@@ -221,6 +222,25 @@ public class NavigationDrawerFragment extends Fragment {
 		if (mCallbacks != null) {
 			mCallbacks.onNavigationDrawerItemSelected(position);
 		}
+		/*Fragment fragment;
+		FragmentManager fragmentManager = getFragmentManager();
+		switch (mCurrentSelectedPosition) {
+		case 1:
+			
+			
+			break;
+		case 2:
+			break;
+		case 3:
+			fragment = new aboutSetFragment();
+			fragmentManager.beginTransaction().replace(R.id.mainFragment, fragment).commit();
+			break;
+		case 4:
+			fragment = new aboutMoreFragment();
+			fragmentManager.beginTransaction().replace(R.id.mainFragment, fragment).commit();
+		default:
+			break;
+		}*/
 	}
 
 	@Override
@@ -272,8 +292,8 @@ public class NavigationDrawerFragment extends Fragment {
 			return true;
 		}
 
-		if (item.getItemId() == R.id.action_set) {
-			Toast.makeText(getActivity(), "����", Toast.LENGTH_SHORT)
+		if (item.getItemId() == R.id.menu_search) {
+			Toast.makeText(getActivity(), "hh", Toast.LENGTH_SHORT)
 					.show();
 			return true;
 		}
