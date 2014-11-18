@@ -292,11 +292,11 @@ public class NavigationDrawerFragment extends Fragment {
 			return true;
 		}
 
-		if (item.getItemId() == R.id.menu_search) {
+		/*if (item.getItemId() == R.id.menu_search) {
 			Toast.makeText(getActivity(), "hh", Toast.LENGTH_SHORT)
 					.show();
 			return true;
-		}
+		}*/
 
 		return super.onOptionsItemSelected(item);
 	}

@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainFragment"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffccff"
     android:gravity="top"
@@ -16,6 +16,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="120dp"
         android:layout_height="30dp"
+        android:textSize="25sp"
         android:layout_alignParentLeft="true"
         android:background="#ffccff"
         android:text="@string/main_record" />
@@ -25,6 +26,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="120dp"
         android:layout_height="30dp"
+        android:textSize="25sp"
         android:layout_alignParentRight="true"
         android:background="#ffccff"
         android:text="@string/main_play" />
@@ -32,7 +34,7 @@
    <LinearLayout
        android:id="@+id/mFG"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
+       android:layout_height="120dp"
        android:layout_above="@+id/chronometer1"
        android:layout_below="@+id/btnRecord"
        android:layout_gravity="center_vertical"
@@ -40,7 +42,7 @@
 
             <ImageView
                 android:id="@+id/imgRecord"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="4"
@@ -60,8 +62,8 @@
     <Button
         android:id="@+id/btnSave"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:background="@drawable/save"
@@ -70,8 +72,8 @@
     <Button
         android:id="@+id/btnDelete"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/delete"
@@ -80,8 +82,8 @@
     <Button
         android:id="@+id/btnRun"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignBaseline="@+id/btnDelete"
         android:layout_alignBottom="@+id/btnDelete"
         android:layout_centerHorizontal="true"

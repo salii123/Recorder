@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout 
-android:id="@+id/LinearLayout01" android:layout_width="fill_parent" 
-android:layout_height="fill_parent" 
-xmlns:android="http://schemas.android.com/apk/res/android">
+	android:id="@+id/LinearLayout01" android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:descendantFocusability="blocksDescendants">
 
-	<LinearLayout
-	  android:id="@+id/LinearLayout02" 
-	  android:layout_width="wrap_content" 
-	  android:layout_height="wrap_content"
-	  android:orientation="vertical">
 	
-		<TextView 
-		android:text="@+id/TextView01" 
-		android:id="@+id/reconder_name" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content"
-		android:textSize ="15sp">
+	    <RelativeLayout 
+			  android:layout_width="wrap_content" 
+			  android:layout_height="wrap_content"
+			  android:orientation="horizontal">
+			<TextView 
+				android:text="@+id/TextView01" 
+				android:id="@+id/list.reconder_name" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:textSize ="20sp">
+			</TextView>
+			<CheckBox 
+		         android:id="@+id/list.checkBox"
+		         android:layout_width="wrap_content"
+		         android:layout_height="wrap_content"
+		       	 android:layout_alignParentRight="true"
+	         />
+		</RelativeLayout>
+		<TextView                                                      
+		     android:text="@+id/info"
+		     android:id="@+id/list.info"                                                      
+		     android:layout_width="wrap_content"
+		     android:layout_height="15dp" 
+		     android:textSize="12sp">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		</TextView>
-	</LinearLayout>
 </LinearLayout>

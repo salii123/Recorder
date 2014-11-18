@@ -81,7 +81,7 @@ public class CallRecorder extends Activity {
 		if(!file.exists()){
 			file.mkdir();
 		}
-		file = new File(dir + System.currentTimeMillis()+ ".amr");
+		file = new File(dir + getTime()+ ".amr");
 		if(file.exists()) {
 			file.delete();
 		}
@@ -95,6 +95,14 @@ public class CallRecorder extends Activity {
 		mediaRecorder.prepare();
 		mediaRecorder.start();
 	}
+
+	private String getTime(){  
+	    SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy-MM-dd HH：mm：ss");        
+	    Date  curDate=new  Date(System.currentTimeMillis());//获取当前时间        
+	    String   time   =   formatter.format(curDate);    
+	    System.out.println("当前时间");  
+	    return time;  
+	} 
 
 	
 	public void stopRecording() {

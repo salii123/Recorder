@@ -1,5 +1,6 @@
 package com.wy.recorder;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,37 +9,27 @@ import ThreadCase.MergeRecords;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.SearchView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
@@ -73,8 +64,14 @@ public class MainActivity extends ActionBarActivity implements
 	static String PREFIX = "CR-";
 	//private static File file;
 	static int click = 0;
-	ex_musicPlayer musicPlayer = new ex_musicPlayer();
+	static ex_musicPlayer musicPlayer = new ex_musicPlayer();
 	static Activity activity;
+//	static ToPlayFragment fgPlay;
+	static ex_musicPlayer fgPlay;
+	
+	//static ToRecordFragment fgRecord;
+	static File fileMerged;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,7 +94,7 @@ public class MainActivity extends ActionBarActivity implements
 	
 	
 	
-	//ʹ���Ͻ��б�һֱ��ʾ
+	//???????б??????
 	private void getOverflowMenu() {
 		try {
 			ViewConfiguration config = ViewConfiguration.get(this);
@@ -108,11 +105,10 @@ public class MainActivity extends ActionBarActivity implements
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	/*//�滻linearlayout
+	/*//?滻linearlayout
 	public void replaceLinearView(View v) {
 		int f = LinearLayout.LayoutParams.MATCH_PARENT;
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(f, f);
@@ -207,7 +203,12 @@ public class MainActivity extends ActionBarActivity implements
 			restoreActionBar();
 			return true;
 		}
-		MenuItem searchItem = menu.findItem(R.id.menu_search);
+			/*SearchManager searchManager =
+		           (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		    SearchView searchView =
+		            (SearchView) menu.findItem(R.id.menu_search).getActionView();
+		    searchView.setSearchableInfo(
+		            searchManager.getSearchableInfo(getComponentName()));*/
 		/*SearchView view = (SearchView) searchItem.getActionView();
 		searchItem.setOnActionExpandListener(new OnActionExpandListener() {
 			
@@ -282,7 +283,6 @@ public class MainActivity extends ActionBarActivity implements
 			
 			//recorder = (Button) rootView.findViewById(R.id.btnRun);
 			chronometer = (Chronometer) rootView.findViewById(R.id.chronometer1);
-			callRecorder = new CallRecorder();
 			
 			//button_stop=(Button)this.findViewById(R.id.button2);
 			//button_stop.setOnClickListener(listener);
@@ -295,6 +295,7 @@ public class MainActivity extends ActionBarActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
 				FragmentTransaction ft = getFragmentManager()
 						.beginTransaction();
 
@@ -302,12 +303,20 @@ public class MainActivity extends ActionBarActivity implements
 				switch (btn.getId()) {
 					case R.id.btnPlay:
 						// jumpListener.onJumpPlay(1);
-						Intent intentRecorder = new Intent(activity, ex_musicPlayer.class);
-						startActivity(intentRecorder);
+						fgPlay = new ex_musicPlayer();
+						ft.replace(R.id.container, fgPlay);
+						ft.addToBackStack(null);
+						ft.commit();
+//						Intent intentRecorder = new Intent(activity, ex_musicPlayer.class);
+//						startActivity(intentRecorder);
 						break;
 					case R.id.btnRun:
 						//Timer timer = new Timer();
+						
 						if (click == 0) {
+							callRecorder = new CallRecorder();
+							chronometer.setBase(SystemClock.elapsedRealtime());
+							chronometer.start();
 							try {
 								callRecorder.startRecording();
 								imgRecord.setImageDrawable(getResources().getDrawable(R.drawable.recording));
@@ -317,12 +326,11 @@ public class MainActivity extends ActionBarActivity implements
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							chronometer.setBase(SystemClock.elapsedRealtime());
-							chronometer.start();
 						} else if (click%2 == 1) {                  //暂停
 							try {
-								imgRecord.setImageDrawable(getResources().getDrawable(
+							 	imgRecord.setImageDrawable(getResources().getDrawable(
 										R.drawable.record));
+								btnRun.setBackground(getResources().getDrawable(R.drawable.stop));
 								callRecorder.stopRecording();
 								chronometer.stop();
 								click++;
@@ -336,6 +344,8 @@ public class MainActivity extends ActionBarActivity implements
 							try {
 								callRecorder.startRecording();
 								imgRecord.setImageDrawable(getResources().getDrawable(R.drawable.recording));
+								btnRun.setBackground(getResources().getDrawable(R.drawable.run));
+								//chronometer.setBase(SystemClock.elapsedRealtime() - 10*1000);
 								chronometer.start();
 								click++;
 							} catch (Exception e) {
@@ -346,73 +356,152 @@ public class MainActivity extends ActionBarActivity implements
 						break;
 					case R.id.btnSave:
 						imgRecord.setImageDrawable(getResources().getDrawable(R.drawable.record));
+						btnRun.setBackground(getResources().getDrawable(R.drawable.run));
 						// instantiate thread class and launch run method
-						if(list == null){ 
+						if(callRecorder == null){ 
 							Toast.makeText(getActivity(), "没有录音文件需要保存。", Toast.LENGTH_SHORT)
 							.show();
 							break;
 						}
 						String fileEndPath = callRecorder.getFile().getPath();
+						
 						if(fileEndPath != list.get(list.size()-1)){//在此之前未点击暂停
 							list.add(fileEndPath);
 						}
 						
-						if(click%2 != 1){
-							MergeRecords mergeRecord = new MergeRecords();
-							mergeRecord.setList(list);
-							mergeRecord.save();
-						}
-						list = null;
+						MergeRecords mergeRecord = new MergeRecords();
+						mergeRecord.setList(list);
+						fileMerged = mergeRecord.save();
+						showDialog();
 						click = 0;
 						chronometer.stop();
-						chronometer.setBase(SystemClock.elapsedRealtime());
+						callRecorder = null;
+						//chronometer.setBase(SystemClock.elapsedRealtime());
 						break;
 					case R.id.btnDelete:
-						if(list == null){
+						
+						if(callRecorder == null){
 							Toast.makeText(getActivity(), "没有录音文件需要删除。", Toast.LENGTH_SHORT)
 							.show();
-							return;
+							break;
 						}
-						showDialog();
-						break;
+					//String filePath = callRecorder.getFile().getPath();
+					AlertDialog.Builder builderDelete = new AlertDialog.Builder(
+							getActivity());
+					builderDelete
+							.setTitle("删除")
+							.setPositiveButton("确认",
+									new DialogInterface.OnClickListener() {
+
+										@Override
+										public void onClick(
+												DialogInterface arg0, int arg1) {
+											// TODO Auto-generated method stub
+											
+											imgRecord
+													.setImageDrawable(getResources()
+															.getDrawable(
+																	R.drawable.record));
+											btnRun.setBackground(getResources()
+													.getDrawable(R.drawable.run));
+											if (list != null) {
+												for (int i = 0; i < list.size(); i++) {
+													File fileOne = new File(
+															(String) list
+																	.get(i));
+													fileOne.delete();
+												}
+											}
+											list = null;
+											chronometer.stop();
+											chronometer.setBase(SystemClock
+													.elapsedRealtime());
+										}
+									})
+							.setNegativeButton("取消",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int whichButton) {
+											return;
+										}
+									}).show();
+					callRecorder = null;
+					click = 0;
+					break;
 					default:
 						break;
 					}
 			}
 		};
 		
-		private void setAlphaAnimation(ImageView view){
-			if(view == null){
-				return;
-			}
-			AnimationSet animationSet = new AnimationSet(true);
-			AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-			alphaAnimation.setDuration(300);
-			alphaAnimation.setRepeatCount(Animation.INFINITE);
-			alphaAnimation.setRepeatMode(Animation.REVERSE);
-			alphaAnimation.setStartOffset(10000);
-			animationSet.addAnimation(alphaAnimation);
-			view.setAnimation(animationSet);
-		}
-		
 		private void showDialog() {
+			final EditText editText = new EditText(getActivity());
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setTitle("删除")
-			.setMessage("确认删除吗？")
-			.setIcon(R.drawable.delete)
+			builder.setTitle("重命名")
+			.setView(editText)
 			.setPositiveButton("确认", new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int whichButton){
 					click = 0;
 					imgRecord.setImageDrawable(getResources().getDrawable(R.drawable.record));
-					if(callRecorder.getFile()!=null){
-						callRecorder.getFile().delete();
+					btnRun.setBackground(getResources().getDrawable(R.drawable.run));
+					if(callRecorder != null){
+						if(!editText.getText().toString().equals("")) { 
+							File f = new File(Environment.getExternalStorageDirectory().toString() +"/recorder/" + editText.getText().toString() + ".amr");
+							fileMerged.renameTo(f);
+							f.delete();
+							Field field;
+							try {
+								field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+								field.setAccessible(true); 
+								field.set(dialog, true);
+							} catch (Exception  e) {
+								e.printStackTrace();
+							} 
+						}
+						else{
+							Toast.makeText(getActivity(), "文件名不能为空", Toast.LENGTH_SHORT)
+							.show();
+							editText.setFocusable(true);
+							Field field;
+							try {
+								field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+								field.setAccessible(true); 
+								field.set(dialog, false);
+							} catch (Exception  e) {
+								e.printStackTrace();
+							} 
+
+						}
+					}
+					if(list != null) {
+						for(int i=0;i<list.size();i++){
+							File fileOne=new File((String) list.get(i));
+							fileOne.delete();
+						}
 					}
 					list = null; 
 					chronometer.stop();
 					chronometer.setBase(SystemClock.elapsedRealtime());
+					callRecorder = null;
 				}
 			}).setNegativeButton("取消", new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int whichButton){
+//					callRecorder = null;
+					Field field;
+					try {
+						field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+						field.setAccessible(true); 
+						field.set(dialog, true);
+					} catch (Exception  e) {
+						e.printStackTrace();
+					}
+					if(list != null) {
+						for(int i=0;i<list.size();i++){
+							File fileOne=new File((String) list.get(i));
+							fileOne.delete();
+						}
+					}
 					return;
 				}
 			}).show();

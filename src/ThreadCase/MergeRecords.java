@@ -3,12 +3,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.os.Environment;
 
 
-public class MergeRecords extends Thread {
+public class MergeRecords  {
 
 	ArrayList list;
 	
@@ -16,9 +18,16 @@ public class MergeRecords extends Thread {
 		this.list = list;
 	}
 	//
-	public int save() {
+	private String getTime(){  
+	    SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy-MM-dd HH：mm：ss");        
+	    Date  curDate=new  Date(System.currentTimeMillis());//获取当前时间        
+	    String   time   =   formatter.format(curDate);    
+	    System.out.println("当前时间");  
+	    return time;  
+	}
+	public File save() {
 		FileOutputStream fileOutputStream = null;
-		File fileEnd = new File(Environment.getExternalStorageDirectory().toString() +"/recorder/"+ System.currentTimeMillis()+ ".3gp");
+		File fileEnd = new File(Environment.getExternalStorageDirectory().toString() +"/recorder/"+ getTime()+ ".amr");
 		if(!fileEnd.exists()){
 			try {
 				fileEnd.createNewFile();
@@ -56,8 +65,9 @@ public class MergeRecords extends Thread {
 					}
 				}
 				
-				fileInputStream.close();
+				
 				fileOutputStream.flush();
+				fileInputStream.close();
 				System.out.println("合成文件长度："+fileEnd.length());
 			
 			} catch (Exception e) {
@@ -72,7 +82,7 @@ public class MergeRecords extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return 0;
+		return fileEnd;
 	}
 	
 	public int deleteOlder() {
@@ -80,13 +90,13 @@ public class MergeRecords extends Thread {
 		return 0;
 	}
 	
-	void Run() {
-		
-		// get together saving
-		
-		// creating new file
-		save();
-		// delete other files
-		deleteOlder();
-	}
+//	void Run() {
+//		
+//		// get together saving
+//		
+//		// creating new file
+//		save();
+//		// delete other files
+//		deleteOlder();
+//	}
 }

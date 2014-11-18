@@ -1,15 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainFragment"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ffccff"
     android:clickable="true"
+    android:gravity="top"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.wy.recorder.MainActivity$PlaceholderFragment" >
+    >
 
     <Button
         android:id="@+id/btnRecord"
@@ -18,7 +19,8 @@
         android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:background="#ffccff"
-        android:text="@string/main_record" />
+        android:text="@string/main_record"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/btnPlay"
@@ -27,45 +29,84 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:background="#ffccff"
-        android:text="@string/main_play" />
+        android:text="@string/main_play"
+        android:textSize="25sp" />
 
-    <LinearLayout
-        android:id="@+id/playFL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPlay"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
-
-        <TextView
+      <TextView
             android:id="@+id/playPath"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="#ffccff"
-            android:textSize="20sp"
-            android:text="ddddddddddddddd" />
-
+            android:layout_below="@+id/btnPlay"
+            android:text="ddddddddddddddd"
+            android:textSize="20sp" />
+      
+    <LinearLayout
+        android:id="@+id/playFL"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@+id/playPath"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+      
         <ListView
             android:id="@+id/android:list"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="340dp"
             android:background="#ffccff"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="1.5dp"
-            tools:context="com.wy.recorder.NavigationDrawerFragment" >
-
+            tools:layout="@layout/m_musicitem" >
         </ListView>
+	
+        <RelativeLayout
+            android:id="@+id/relative"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="#ddffdd"
+            >
+
+            <Button
+                android:id="@+id/cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:text="撤销    |"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="分享"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:text="|  删除"
+                android:textSize="20sp" />
+        </RelativeLayout>
     </LinearLayout>
-<!-- 	<RelativeLayout
+    
+     	<!--  <RelativeLayout
             android:id="@+id/AbsoluteLayout02"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" > -->
+            android:orientation="horizontal" >
+   		-->
+
     <Button
         android:id="@+id/stop"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/seekbar"
         android:background="@drawable/stop"
@@ -87,20 +128,21 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_above="@+id/seekbar"
+        android:layout_alignParentRight="true"
         android:text="暂停" >
     </Button>
 
-        <SeekBar
-            android:id="@+id/seekbar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true" />
 
-        <TextView
-            android:id="@+id/currtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"  />
+    <TextView
+        android:id="@+id/currtime"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true" />
+	
 </RelativeLayout>

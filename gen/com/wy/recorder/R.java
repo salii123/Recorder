@@ -1098,9 +1098,8 @@ containing a value of this type.
         public static final int stop=0x7f020063;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f06005f;
-        public static final int LinearLayout02=0x7f060060;
-        public static final int TextView01=0x7f060061;
+        public static final int LinearLayout01=0x7f060063;
+        public static final int TextView01=0x7f060064;
         public static final int aboutSoft=0x7f06003e;
         public static final int aboutSoftContent=0x7f06003f;
         public static final int aboutUs=0x7f06003c;
@@ -1116,7 +1115,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_settings=0x7f060063;
+        public static final int action_settings=0x7f060069;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
@@ -1125,12 +1124,14 @@ containing a value of this type.
         public static final int btnRecord=0x7f060050;
         public static final int btnRun=0x7f060057;
         public static final int btnSave=0x7f060056;
+        public static final int cancle=0x7f06005b;
         public static final int checkbox=0x7f06002d;
         public static final int chronometer1=0x7f060053;
         public static final int collapseActionView=0x7f06000d;
         public static final int container=0x7f06004d;
-        public static final int currtime=0x7f06005e;
+        public static final int currtime=0x7f060062;
         public static final int default_activity_button=0x7f060028;
+        public static final int delete=0x7f06005d;
         public static final int dialog=0x7f06000e;
         public static final int disableHome=0x7f060008;
         public static final int drawer_layout=0x7f06004c;
@@ -1145,23 +1146,27 @@ containing a value of this type.
         public static final int ifRoom=0x7f06000a;
         public static final int image=0x7f060027;
         public static final int imgRecord=0x7f060054;
+        public static final int info=0x7f060067;
+        public static final int list_checkBox=0x7f060066;
+        public static final int list_info=0x7f060068;
+        public static final int list_reconder_name=0x7f060065;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
         public static final int mFG=0x7f060052;
         public static final int mainFragment=0x7f06004f;
-        public static final int menu_search=0x7f060064;
+        public static final int menu_search=0x7f06006a;
         public static final int middle=0x7f060012;
         public static final int navigation_drawer=0x7f06004e;
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
-        public static final int pause=0x7f06005d;
-        public static final int playFL=0x7f060058;
-        public static final int playPath=0x7f060059;
+        public static final int pause=0x7f060061;
+        public static final int playFL=0x7f060059;
+        public static final int playPath=0x7f060058;
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f06002f;
-        public static final int reconder_name=0x7f060062;
+        public static final int relative=0x7f06005a;
         public static final int search_badge=0x7f060032;
         public static final int search_bar=0x7f060031;
         public static final int search_button=0x7f060033;
@@ -1172,7 +1177,7 @@ containing a value of this type.
         public static final int search_plate=0x7f060036;
         public static final int search_src_text=0x7f060037;
         public static final int search_voice_btn=0x7f06003b;
-        public static final int seekbar=0x7f06005b;
+        public static final int seekbar=0x7f06005f;
         public static final int setDefault=0x7f060048;
         public static final int set_channel=0x7f060040;
         public static final int set_modle=0x7f060044;
@@ -1190,12 +1195,13 @@ containing a value of this type.
         public static final int showHome=0x7f060004;
         public static final int showTitle=0x7f060006;
         public static final int split_action_bar=0x7f06001e;
-        public static final int start=0x7f06005c;
-        public static final int stop=0x7f06005a;
+        public static final int start=0x7f060060;
+        public static final int stop=0x7f06005e;
         public static final int submit_area=0x7f060039;
         public static final int tabMode=0x7f060002;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
+        public static final int txtcount=0x7f06005c;
         public static final int up=0x7f060021;
         public static final int useLogo=0x7f060003;
         public static final int withText=0x7f06000c;
@@ -1349,9 +1355,9 @@ containing a value of this type.
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f0c008c;
-        public static final int CustomActionBarTheme=0x7f0c008d;
-        public static final int MyActionBar=0x7f0c008e;
-        public static final int MyTitleStyle=0x7f0c008f;
+        public static final int CustomActionBarTheme=0x7f0c008e;
+        public static final int MyActionBar=0x7f0c008f;
+        public static final int MyTitleStyle=0x7f0c0090;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f0c0063;
@@ -1460,6 +1466,7 @@ containing a value of this type.
         /**  Base platform-dependent theme providing a light-themed activity. 
          */
         public static final int Theme_Base_Light=0x7f0c007f;
+        public static final int Transparent=0x7f0c008d;
         /**  Styles in here can be extended for customisation in your application. Each utilises
          one of the Base styles. If Holo themes are available on the current platform version
          they will be used instead of the compat styles. 

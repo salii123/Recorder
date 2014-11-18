@@ -1,27 +1,37 @@
 package com.wy.recorder;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.wy.bean.Record;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ListActivity;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.SystemClock;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.*;
+import android.widget.AdapterView.OnItemLongClickListener;
 
- @SuppressLint("NewApi")
- public class ex_musicPlayer extends ListActivity {
+ @SuppressLint({ "NewApi", "ShowToast" })
+ public class ex_musicPlayer extends ListFragment {
 	 TextView textView;
 	// 播放对象
 	private MediaPlayer m_musicplayer;
@@ -47,28 +57,50 @@ import android.widget.*;
 	public Button btnPlay;
 	public Button btnRecord;
 	Activity activity;
+	
+//	private ListView listview;
+	private Context context;
+    private List<String> selectid = new ArrayList<String>();
+    private boolean isMulChoice = false; //是否多选
+    
+    private MyListAdapter adapter;
+    
+    private RelativeLayout layout2;
+    private Button cancle,delete;
+    private TextView txtcount;
+	
+	
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_play);
-
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState){
+		//setContentView(R.layout.fragment_play);
+		View layout = inflater.inflate(R.layout.fragment_play, container, false);
 		m_musicplayer = new MediaPlayer();
 
-		textView = (TextView) findViewById(R.id.playPath);
+		textView = (TextView) layout.findViewById(R.id.playPath);
 		textView.setText(getRecordStorageDir());
 		
-		start = (Button) findViewById(R.id.start);
-		stop = (Button) findViewById(R.id.stop);
-		pause = (Button) findViewById(R.id.pause);
-		seekbar=(SeekBar)findViewById(R.id.seekbar);
-		currentTime = (TextView) findViewById(R.id.currtime);
-		currentTime.setText("0:00");
-		btnPlay = (Button)findViewById(R.id.btnPlay);
-		btnRecord = (Button)findViewById(R.id.btnRecord);
-		activity = this;
 		
-		musicList();// 获取播放列表
+		start = (Button) layout.findViewById(R.id.start);
+		stop = (Button) layout.findViewById(R.id.stop);
+		pause = (Button) layout.findViewById(R.id.pause);
+		seekbar=(SeekBar)layout.findViewById(R.id.seekbar);
+		currentTime = (TextView) layout.findViewById(R.id.currtime);
+		currentTime.setText("0:00");
+		btnPlay = (Button)layout.findViewById(R.id.btnPlay);
+		btnRecord = (Button)layout.findViewById(R.id.btnRecord);
+	
+		activity = getActivity();
+		
+        layout2 = (RelativeLayout)layout.findViewById(R.id.relative);
+        txtcount = (TextView)layout.findViewById(R.id.txtcount);
+        cancle   = (Button)layout.findViewById(R.id.cancle);
+        delete   = (Button)layout.findViewById(R.id.delete);
+       
+//		musicList();// 获取播放列表
 		listener();// 监听
+		return layout;
 		
 	}
 
@@ -152,22 +184,80 @@ import android.widget.*;
 			
 			@Override
 			public void onClick(View arg0) {
+				getFragmentManager().popBackStack();
+			}
+		});
+		
+		 /*cancle.setOnClickListener(listener());
+        delete.setOnClickListener(listener());*/
+		cancle.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				activity.finish();
+	            layout2.setVisibility(View.INVISIBLE);
+			}
+		});
+		delete.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				isMulChoice =false;
+				String str = "";
+				builder.setMessage(str);
+				builder
+				.setTitle("删除")
+				.setPositiveButton("确认",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(
+									DialogInterface arg0, int arg1) {
+								// TODO Auto-generated method stub
+								if(adapter.mChecked.size() <= 0){ 
+									Toast.makeText(getActivity(), "请选择要操作额选项。", Toast.LENGTH_SHORT);
+									return;
+								}
+								for (int i = 0; i < adapter.mChecked.size(); i++) {
+									if (adapter.mChecked.get(i)) {
+										adapter.mChecked.remove(i);
+										File file = new File(m_playlist.get(i));
+										file.delete();
+									}
+								}
+								Toast.makeText(getActivity(), "已删除选定文件。", Toast.LENGTH_SHORT);
+								musicList();
+							
+							}
+						})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialog,
+									int whichButton) {
+								for (int i = 0; i < adapter.mChecked.size(); i++) {
+									if (adapter.mChecked.get(i)) {
+										adapter.mChecked.remove(i);
+									}
+								}
+							}
+						}).show();
+	            layout2.setVisibility(View.INVISIBLE);
 			}
 		});
 	}
-	private String toTime(int time){  
-        int minute = time / 1000 / 60;  
-        int s = time / 1000 % 60;  
-        String mm = null;  
-        String ss = null;  
-        if(minute<10)mm = "0" + minute;  
-        else mm = minute + "";     
-        if(s <10)ss = "0" + s;  
-        else ss = "" + s;     
-        return mm + ":" + ss;  
-    } 
+//	private String toTime(int time){  
+//        int minute = time / 1000 / 60;  
+//        int s = time / 1000 % 60;  
+//        String mm = null;  
+//        String ss = null;  
+//        if(minute<10)mm = "0" + minute;  
+//        else mm = minute + "";     
+//        if(s <10)ss = "0" + s;  
+//        else ss = "" + s;     
+//        return mm + ":" + ss;  
+//    } 
 	
 	 private void updateTextView()
 	   	{
@@ -183,19 +273,36 @@ import android.widget.*;
 	   			    seekbar.setProgress(m_musicplayer.getCurrentPosition());
 	   		}
 	   	}
-
+	 
 	// 获取SD音乐
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		musicList();
+	}
+
 	private void musicList() {
 		// TODO Auto-generated method stub
+		ListView lv;
+		lv = (ListView)this.getView().findViewById(android.R.id.list);
+		lv.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			
+		});
 		m_playlist.clear();
 		search(m_musicpath,"amr", m_playlist);
-
-		SimpleAdapter adapter = new SimpleAdapter(this, this.getData(),
-				R.layout.m_musicitem,
-				new String[] { "seconder_name" }, new int[] {
-						R.id.reconder_name});
-		setListAdapter(adapter);
+		adapter = new MyListAdapter(this.getData());
+		lv.setAdapter(adapter);
 	}
+	
 
 	// 遍历路径下指定后缀名
 	private void search(String dir, final String suffix, List<String> list) {
@@ -217,19 +324,88 @@ import android.widget.*;
 		}
 	}
 
-	private List<Map<String, Object>> getData() {
-		List<Map<String, Object>> m_list = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map;	
+	private List<Record> getData() {
+		List<Record> m_list = new ArrayList<Record>();
+		Record record;
 		for (int i = 0; i < m_playlist.size(); i++) {
-			map = new HashMap<String, Object>();
+			record = new Record();
 			//获取录音信息
 			File file = new File(m_playlist.get(i)); 
-			map.put("seconder_name", file.getName());
-			m_list.add(map);
+			String fileModifiedDate = "最后修改时间：" + FormatFileModifiedData(file.lastModified());
+			String fileSize = "文件大小：" + FormetFileSize(file.length());
+			String info = fileSize + "     " + fileModifiedDate;
+			record.setRname(file.getName());
+			record.setRinfo(info);
+			m_list.add(record);
 		}
 		return m_list;
 	}
+//	private List<Map<String, Object>> getData() {
+//		List<Map<String, Object>> m_list = new ArrayList<Map<String, Object>>();
+//		Map<String, Object> map;	
+//		for (int i = 0; i < m_playlist.size(); i++) {
+//			map = new HashMap<String, Object>();
+//			//获取录音信息
+//			File file = new File(m_playlist.get(i)); 
+//			map.put("seconder_name", file.getName());
+//			m_list.add(map);
+//		}
+//		return m_list;
+//	}
+	//获得选中的item
+	private void checkedList() {
+		List<Map<String, Object>> c_list = new ArrayList<Map<String, Object>>();
+		Map<String, Object> map;
+		for (int i = 0; i < m_playlist.size() ; i++) {
+			map = new HashMap<String, Object>();
+		}
+	}
 	
+	class Onlongclick implements OnLongClickListener{
+
+        public boolean onLongClick(View v) {
+            // TODO Auto-generated method stub
+            
+            isMulChoice = true;
+            selectid.clear();
+            layout2.setVisibility(View.VISIBLE);
+            for(int i=0; i < m_playlist.size(); i++)
+            {
+               // adapter.visiblecheck.put(i, CheckBox.VISIBLE);
+            }
+           // adapter = new Adapter(context,txtcount);
+            //listview.setAdapter(adapter);
+            return true;
+        }
+	}
+	
+	//将文件修改时间改为日期格式
+	private String FormatFileModifiedData(long fileModifiedData) {
+		Calendar   cal=Calendar.getInstance();  
+		cal.setTimeInMillis(fileModifiedData);
+		String time = cal.getTime().toLocaleString();
+		return time;
+	}
+	
+	//将文件大小改为K、M格式
+	private static String FormetFileSize(long fileS) {
+		DecimalFormat df = new DecimalFormat("#.00");
+		String fileSizeString = "";
+		String wrongSize = "0B";
+		if (fileS == 0) {
+			return wrongSize;
+		}
+		if (fileS < 1024) {
+			fileSizeString = df.format((double) fileS) + "B";
+		} else if (fileS < 1048576) {
+			fileSizeString = df.format((double) fileS / 1024) + "KB";
+		} else if (fileS < 1073741824) {
+			fileSizeString = df.format((double) fileS / 1048576) + "MB";
+		} else {
+			fileSizeString = df.format((double) fileS / 1073741824) + "GB";
+		}
+		return fileSizeString;
+	}
 	 
 	// 播放音乐
 	void playMusic(String path) {
@@ -242,7 +418,7 @@ import android.widget.*;
 			m_musicplayer.start();
 			seekbar.setMax(m_musicplayer.getDuration()); //(不要放错位置！！！)获得歌曲的长度并设置成播放进度条的最大值
 			if (m_playlist.isEmpty() == true) {
-				Toast.makeText(this, "播放列表为空", 1000).show();
+				Toast.makeText(activity, "播放列表为空", 1000).show();
 				return;
 			}
 		
@@ -260,25 +436,105 @@ import android.widget.*;
 	 
 	// 选择列表项时，播放音乐
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 		m_list_item = position;
 		String path = m_playlist.get(m_list_item);
 		playMusic(path);
 		handler.post(updateThread);  
 	}
-
-	// 当用户返回时结束音乐并释放音乐对象
+	
+	 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			m_musicplayer.stop();
-			m_musicplayer.release();
-			this.finish();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
+	public void onDestroyView() {
+		m_musicplayer.stop();
+		m_musicplayer.release();
+		
+		super.onDestroyView();
 	}
+	
+
+	class MyListAdapter extends BaseAdapter{
+        List<Boolean> mChecked;
+        List<Record> listRecord;
+        HashMap<Integer,View> map = new HashMap<Integer,View>(); 
+         
+        public MyListAdapter(List<Record> list){
+            listRecord = list;
+            mChecked = new ArrayList<Boolean>();
+            for(int i=0;i<list.size();i++){
+                mChecked.add(false);
+            }
+        }
+ 
+        @Override
+        public int getCount() {
+            return m_playlist.size();
+        }
+ 
+        @Override
+        public Object getItem(int position) {
+            return m_playlist.get(position);
+        }
+ 
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+ 
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view;
+            ViewHolder holder = null;
+             
+            if (map.get(position) == null) {
+                Log.e("MainActivity","position1 = "+position);
+               
+                LayoutInflater mInflater = (LayoutInflater) getActivity().getApplicationContext()
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = mInflater.inflate(R.layout.m_musicitem, null);
+                holder = new ViewHolder();
+                holder.selected = (CheckBox)view.findViewById(R.id.list_checkBox);
+                holder.seconder_name = (TextView) view.findViewById(R.id.list_reconder_name);
+                holder.info = (TextView) view.findViewById(R.id.list_info);
+                final int p = position;
+                map.put(position, view);
+                holder.selected.setOnClickListener(new View.OnClickListener() {
+                     
+                    @Override
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox)v;
+                        mChecked.set(p, cb.isChecked());
+                    }
+                });
+                holder.seconder_name.setOnLongClickListener(new OnLongClickListener() {
+					
+					@Override
+					public boolean onLongClick(View v) {
+						// TODO Auto-generated method stub
+						
+						return false;
+					}
+				});
+                view.setTag(holder);
+            }else{
+                Log.e("MainActivity","position2 = "+position);
+                view = map.get(position);
+                holder = (ViewHolder)view.getTag();
+            }
+             
+            holder.selected.setChecked(mChecked.get(position));
+//            holder.selected.
+            holder.seconder_name.setText(listRecord.get(position).getRname()+"  ");
+            holder.info.setText(listRecord.get(position).getRinfo());
+            return view;
+        }
+    }
+	static class ViewHolder{
+        CheckBox selected;
+        TextView seconder_name;
+        TextView info;
+        
+    }
 
 }
