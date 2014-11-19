@@ -1,6 +1,7 @@
 package com.wy.recorder;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,13 +26,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.*;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.*;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 
  @SuppressLint({ "NewApi", "ShowToast" })
- public class ex_musicPlayer extends ListFragment {
+ public class ex_musicPlayer extends ListFragment implements OnItemLongClickListener, OnCreateContextMenuListener {
 	 TextView textView;
 	// 播放对象
 	private MediaPlayer m_musicplayer;
@@ -286,24 +289,95 @@ import android.widget.AdapterView.OnItemLongClickListener;
 		// TODO Auto-generated method stub
 		ListView lv;
 		lv = (ListView)this.getView().findViewById(android.R.id.list);
-		lv.setOnItemLongClickListener(new OnItemLongClickListener(){
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-			
-			
-		});
+		registerForContextMenu(lv);
 		m_playlist.clear();
 		search(m_musicpath,"amr", m_playlist);
 		adapter = new MyListAdapter(this.getData());
 		lv.setAdapter(adapter);
 	}
 	
+	@Override
+	public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+			int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.setHeaderTitle("文件修改");
+		menu.add(0, 0, 0, "重命名");
+		menu.add(0, 1, 0, "刪除");
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterContextMenuInfo itemInfo = (AdapterContextMenuInfo) item.getMenuInfo();  
+		switch (item.getItemId()) {
+		case 0:
+			final int position = itemInfo.position;
+			final EditText editTxt = new EditText(getActivity());
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle("重命名")
+			.setView(editTxt)
+			.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int arg1) {
+					// TODO Auto-generated method stub
+					if(!editTxt.getText().toString().equals("")){
+						File file = new File(m_playlist.get(position));
+						file.delete();
+						musicList();
+						Toast.makeText(getActivity(), "文件已刪除", Toast.LENGTH_SHORT)
+						.show();
+						Field field;
+						try {
+							field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+							field.setAccessible(true); 
+							field.set(dialog, true);
+						} catch (Exception  e) {
+							e.printStackTrace();
+						} 
+					}
+					else{
+						Toast.makeText(getActivity(), "文件名不能为空", Toast.LENGTH_SHORT)
+						.show();
+						editTxt.setFocusable(true);
+						Field field;
+						try {
+							field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+							field.setAccessible(true); 
+							field.set(dialog, false);
+						} catch (Exception  e) {
+							e.printStackTrace();
+						} 
 
+					}
+				}
+			}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					// TODO Auto-generated method stub
+					return;
+				}
+			}).show();
+			break;
+		case 1:
+			
+			break;
+		default:
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
+	
 	// 遍历路径下指定后缀名
 	private void search(String dir, final String suffix, List<String> list) {
 		File file = new File(dir);
@@ -352,16 +426,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 //		}
 //		return m_list;
 //	}
-	//获得选中的item
-	private void checkedList() {
-		List<Map<String, Object>> c_list = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map;
-		for (int i = 0; i < m_playlist.size() ; i++) {
-			map = new HashMap<String, Object>();
-		}
-	}
 	
-	class Onlongclick implements OnLongClickListener{
+/*	class Onlongclick implements OnLongClickListener{
 
         public boolean onLongClick(View v) {
             // TODO Auto-generated method stub
@@ -378,7 +444,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
             return true;
         }
 	}
-	
+	*/
 	//将文件修改时间改为日期格式
 	private String FormatFileModifiedData(long fileModifiedData) {
 		Calendar   cal=Calendar.getInstance();  
@@ -507,15 +573,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
                         mChecked.set(p, cb.isChecked());
                     }
                 });
-                holder.seconder_name.setOnLongClickListener(new OnLongClickListener() {
-					
-					@Override
-					public boolean onLongClick(View v) {
-						// TODO Auto-generated method stub
-						
-						return false;
-					}
-				});
+                
                 view.setTag(holder);
             }else{
                 Log.e("MainActivity","position2 = "+position);

@@ -435,7 +435,7 @@ public class MainActivity extends ActionBarActivity implements
 			}
 		};
 		
-		private void showDialog() {
+		public void showDialog() {
 			final EditText editText = new EditText(getActivity());
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("重命名")

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout 
-	android:id="@+id/LinearLayout01" android:layout_width="fill_parent" 
-	android:layout_height="fill_parent" 
+	android:id="@+id/LinearLayout01"
+	 android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	 android:orientation="vertical"
 	android:descendantFocusability="blocksDescendants">
 
 	
-	    <RelativeLayout 
+	    <RelativeLayout
 			  android:layout_width="wrap_content" 
 			  android:layout_height="wrap_content"
 			  android:orientation="horizontal">
@@ -16,20 +18,34 @@
 				android:id="@+id/list.reconder_name" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
-				android:textSize ="20sp">
+				android:textSize ="20sp"
+				>
 			</TextView>
-			<CheckBox 
-		         android:id="@+id/list.checkBox"
-		         android:layout_width="wrap_content"
-		         android:layout_height="wrap_content"
-		       	 android:layout_alignParentRight="true"
-	         />
+			<LinearLayout
+			  android:layout_width="fill_parent" 
+			  android:layout_height="fill_parent"
+			  android:orientation="vertical" 
+			  android:gravity="right"
+			  >
+				<CheckBox 
+			         android:id="@+id/list.checkBox"
+			         android:layout_width="wrap_content"
+			         android:layout_height="wrap_content"
+			         android:gravity="right"
+		         />
+			</LinearLayout>
 		</RelativeLayout>
-		<TextView                                                      
-		     android:text="@+id/info"
-		     android:id="@+id/list.info"                                                      
-		     android:layout_width="wrap_content"
-		     android:layout_height="15dp" 
-		     android:textSize="12sp">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-		</TextView>
+		 <LinearLayout 
+			  android:layout_width="wrap_content" 
+			  android:layout_height="wrap_content"
+			  >
+			<TextView                                                      
+			     android:text="@+id/info"
+			     android:id="@+id/list.info"                                                      
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content" 
+			     android:textSize="12sp"
+			     >                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+			</TextView>
+		</LinearLayout>
 </LinearLayout>
