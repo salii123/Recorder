@@ -44,23 +44,21 @@
     <LinearLayout
         android:id="@+id/playFL"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/playPath"
         android:gravity="center_vertical"
         android:orientation="vertical" >
-      
+
         <ListView
             android:id="@+id/android:list"
             android:layout_width="fill_parent"
-            android:layout_height="340dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.52"
             android:background="#ffccff"
             android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
             android:dividerHeight="1.5dp"
             tools:layout="@layout/m_musicitem" >
         </ListView>
-	
-        
     </LinearLayout>
     
      	<!--  <RelativeLayout
@@ -115,8 +113,9 @@
             android:id="@+id/relative"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
             android:background="#ddffdd"
+            android:layout_alignParentBottom="true" 
+            android:visibility="gone"
             >
 
             <Button
@@ -134,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="分享"
-                android:textSize="15sp" />
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/delete"

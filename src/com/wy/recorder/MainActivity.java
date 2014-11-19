@@ -296,17 +296,58 @@ public class MainActivity extends ActionBarActivity implements
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				FragmentTransaction ft = getFragmentManager()
+				final FragmentTransaction ft = getFragmentManager()
 						.beginTransaction();
 
 				Button btn = (Button) v;
 				switch (btn.getId()) {
 					case R.id.btnPlay:
 						// jumpListener.onJumpPlay(1);
-						fgPlay = new ex_musicPlayer();
-						ft.replace(R.id.container, fgPlay);
-						ft.addToBackStack(null);
-						ft.commit();
+						if(list == null){
+							fgPlay = new ex_musicPlayer();
+							ft.replace(R.id.container, fgPlay);
+							ft.addToBackStack(null);
+							ft.commit();
+						}else {
+							AlertDialog.Builder builderDelete = new AlertDialog.Builder(
+									getActivity());
+							builderDelete
+									.setTitle("录音文件未保存，确认离开吗？")
+									.setPositiveButton("确认",
+											new DialogInterface.OnClickListener() {
+
+												@Override
+												public void onClick(
+														DialogInterface arg0, int arg1) {
+													// TODO Auto-generated method stub
+													if (list != null) {
+														for (int i = 0; i < list.size(); i++) {
+															File fileOne = new File(
+																	(String) list
+																			.get(i));
+															fileOne.delete();
+														}
+													}
+													list = null;
+													chronometer.stop();
+													chronometer.setBase(SystemClock
+															.elapsedRealtime());
+													fgPlay = new ex_musicPlayer();
+													ft.replace(R.id.container, fgPlay);
+													ft.addToBackStack(null);
+													ft.commit();
+												}
+											})
+									.setNegativeButton("取消",
+											new DialogInterface.OnClickListener() {
+												public void onClick(
+														DialogInterface dialog,
+														int whichButton) {
+													return;
+												}
+											}).show();
+						}
+						
 //						Intent intentRecorder = new Intent(activity, ex_musicPlayer.class);
 //						startActivity(intentRecorder);
 						break;
@@ -375,7 +416,7 @@ public class MainActivity extends ActionBarActivity implements
 						showDialog();
 						click = 0;
 						chronometer.stop();
-						callRecorder = null;
+//						callRecorder = null;不能置空否则无法改名
 						//chronometer.setBase(SystemClock.elapsedRealtime());
 						break;
 					case R.id.btnDelete:
@@ -449,7 +490,6 @@ public class MainActivity extends ActionBarActivity implements
 						if(!editText.getText().toString().equals("")) { 
 							File f = new File(Environment.getExternalStorageDirectory().toString() +"/recorder/" + editText.getText().toString() + ".amr");
 							fileMerged.renameTo(f);
-							f.delete();
 							Field field;
 							try {
 								field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");

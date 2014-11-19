@@ -72,7 +72,7 @@ public class CallRecorder extends Activity {
 	public void startRecording() throws Exception {
 		mediaRecorder = new MediaRecorder();
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+		mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
 		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
 		String dir = Environment.getExternalStorageDirectory().toString() +"/recorder/";

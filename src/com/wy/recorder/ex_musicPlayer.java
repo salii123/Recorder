@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.wy.bean.Record;
 
@@ -21,7 +20,6 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -30,11 +28,10 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.*;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 
  @SuppressLint({ "NewApi", "ShowToast" })
- public class ex_musicPlayer extends ListFragment implements OnItemLongClickListener, OnCreateContextMenuListener {
+ public class ex_musicPlayer extends ListFragment implements  OnCreateContextMenuListener {
 	 TextView textView;
 	// 播放对象
 	private MediaPlayer m_musicplayer;
@@ -61,17 +58,11 @@ import android.widget.AdapterView.OnItemLongClickListener;
 	public Button btnRecord;
 	Activity activity;
 	
-//	private ListView listview;
-	private Context context;
-    private List<String> selectid = new ArrayList<String>();
-    private boolean isMulChoice = false; //是否多选
-    
     private MyListAdapter adapter;
     
     private RelativeLayout layout2;
     private Button cancle,delete;
-    private TextView txtcount;
-	
+	static int itemId;
 	
 	
 	@Override
@@ -97,7 +88,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 		activity = getActivity();
 		
         layout2 = (RelativeLayout)layout.findViewById(R.id.relative);
-        txtcount = (TextView)layout.findViewById(R.id.txtcount);
         cancle   = (Button)layout.findViewById(R.id.cancle);
         delete   = (Button)layout.findViewById(R.id.delete);
        
@@ -112,10 +102,15 @@ import android.widget.AdapterView.OnItemLongClickListener;
     Runnable updateThread = new Runnable(){  
         public void run() {  
             //获得歌曲现在播放位置并设置成播放进度条的值  
-           seekbar.setProgress(m_musicplayer.getCurrentPosition());  
-           updateTextView();
-            //每次延迟100毫秒再启动线程  
-           handler.postDelayed(updateThread, 200);    
+           try {
+			seekbar.setProgress(m_musicplayer.getCurrentPosition());  
+			   updateTextView();
+			    //每次延迟100毫秒再启动线程  
+			   handler.postDelayed(updateThread, 200);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    
         }  
     };  
   
@@ -206,7 +201,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 			@Override
 			public void onClick(View arg0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-				isMulChoice =false;
 				String str = "";
 				builder.setMessage(str);
 				builder
@@ -229,9 +223,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 										file.delete();
 									}
 								}
-								Toast.makeText(getActivity(), "已删除选定文件。", Toast.LENGTH_SHORT);
 								musicList();
-							
+								//toast.setGravity(Gravity.CENTER, 0, 0); 
+
+								//Toast.makeText(getActivity(), "已删除选定文件。", Toast.LENGTH_SHORT).setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
 							}
 						})
 				.setNegativeButton("取消",
@@ -293,21 +288,23 @@ import android.widget.AdapterView.OnItemLongClickListener;
 		m_playlist.clear();
 		search(m_musicpath,"amr", m_playlist);
 		adapter = new MyListAdapter(this.getData());
+		lv.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				itemId = (int)arg3;
+				return false;
+			}});   
+
 		lv.setAdapter(adapter);
-	}
-	
-	@Override
-	public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-			int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		
-		return false;
 	}
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
+		
 		menu.setHeaderTitle("文件修改");
 		menu.add(0, 0, 0, "重命名");
 		menu.add(0, 1, 0, "刪除");
@@ -317,10 +314,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		AdapterContextMenuInfo itemInfo = (AdapterContextMenuInfo) item.getMenuInfo();  
 		switch (item.getItemId()) {
 		case 0:
-			final int position = itemInfo.position;
 			final EditText editTxt = new EditText(getActivity());
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("重命名")
@@ -331,10 +326,11 @@ import android.widget.AdapterView.OnItemLongClickListener;
 				public void onClick(DialogInterface dialog, int arg1) {
 					// TODO Auto-generated method stub
 					if(!editTxt.getText().toString().equals("")){
-						File file = new File(m_playlist.get(position));
-						file.delete();
+						File file = new File(m_playlist.get(itemId));
+						File f = new File(Environment.getExternalStorageDirectory().toString() +"/recorder/" + editTxt.getText().toString() + ".amr");
+						file.renameTo(f);
 						musicList();
-						Toast.makeText(getActivity(), "文件已刪除", Toast.LENGTH_SHORT)
+						Toast.makeText(getActivity(), "文件重命名成功", Toast.LENGTH_SHORT)
 						.show();
 						Field field;
 						try {
@@ -370,7 +366,11 @@ import android.widget.AdapterView.OnItemLongClickListener;
 			}).show();
 			break;
 		case 1:
-			
+			File file = new File(m_playlist.get(itemId));
+			file.delete();
+			musicList();
+			Toast.makeText(getActivity(), "文件已删除", Toast.LENGTH_SHORT)
+			.show();
 			break;
 		default:
 			break;
@@ -405,9 +405,9 @@ import android.widget.AdapterView.OnItemLongClickListener;
 			record = new Record();
 			//获取录音信息
 			File file = new File(m_playlist.get(i)); 
-			String fileModifiedDate = "最后修改时间：" + FormatFileModifiedData(file.lastModified());
-			String fileSize = "文件大小：" + FormetFileSize(file.length());
-			String info = fileSize + "     " + fileModifiedDate;
+			String fileModifiedDate = "最后修改时间:" + FormatFileModifiedData(file.lastModified());
+			String fileSize = "大小:" + FormetFileSize(file.length());
+			String info = fileSize + " " + fileModifiedDate;
 			record.setRname(file.getName());
 			record.setRinfo(info);
 			m_list.add(record);
@@ -427,24 +427,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 //		return m_list;
 //	}
 	
-/*	class Onlongclick implements OnLongClickListener{
-
-        public boolean onLongClick(View v) {
-            // TODO Auto-generated method stub
-            
-            isMulChoice = true;
-            selectid.clear();
-            layout2.setVisibility(View.VISIBLE);
-            for(int i=0; i < m_playlist.size(); i++)
-            {
-               // adapter.visiblecheck.put(i, CheckBox.VISIBLE);
-            }
-           // adapter = new Adapter(context,txtcount);
-            //listview.setAdapter(adapter);
-            return true;
-        }
-	}
-	*/
 	//将文件修改时间改为日期格式
 	private String FormatFileModifiedData(long fileModifiedData) {
 		Calendar   cal=Calendar.getInstance();  
@@ -570,6 +552,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
                     @Override
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox)v;
+                        layout2.setVisibility(View.VISIBLE);
                         mChecked.set(p, cb.isChecked());
                     }
                 });

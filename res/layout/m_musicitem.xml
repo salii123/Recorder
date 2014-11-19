@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/LinearLayout01"
-	 android:layout_width="fill_parent" 
+	android:layout_width="fill_parent" 
 	android:layout_height="wrap_content" 
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	 android:orientation="vertical"
+	android:orientation="vertical"
 	android:descendantFocusability="blocksDescendants">
 
 	
@@ -18,7 +18,7 @@
 				android:id="@+id/list.reconder_name" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
-				android:textSize ="20sp"
+				android:textSize ="25sp"
 				>
 			</TextView>
 			<LinearLayout
@@ -44,7 +44,7 @@
 			     android:id="@+id/list.info"                                                      
 			     android:layout_width="wrap_content"
 			     android:layout_height="wrap_content" 
-			     android:textSize="12sp"
+			     android:textSize="14sp"
 			     >                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 			</TextView>
 		</LinearLayout>
