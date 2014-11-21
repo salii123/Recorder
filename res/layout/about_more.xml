@@ -12,20 +12,21 @@
 	    android:height="35dp"
 	    android:textStyle="bold"
 	    android:text="关于我们"
+	    android:textSize="20sp"
 	    />
 	<TextView
 	    android:id="@+id/aboutUsContent"
-	     android:height="35dp"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="我们经过艰苦的努力，完成了可以使用的android项目，如有建议请随时联系我们。
-	    			  "/>
+	    android:layout_height="90dp"
+	    android:text="我们经过艰苦的努力，完成了可以使用的android项目，如有建议请随时联系我们。"
+	    android:textSize="20sp"/>
 	<TextView 
 	    android:id="@+id/aboutSoft"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:height="35dp"
 	    android:textStyle="bold"
+	    android:textSize="20sp"
 	    android:text="关于该软件"
 	    />
 	<TextView
@@ -33,6 +34,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	     android:height="35dp"
-	    android:text="version:1.0"/>
+	    android:text="version:1.0"
+	    android:textSize="20sp"/>
 	
 </LinearLayout>

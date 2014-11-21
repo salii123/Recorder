@@ -33,21 +33,21 @@
         android:id="@+id/set_modle"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="录音模式"/>
+        android:text="存储格式"/>
     <RadioGroup
-        android:id="@+id/set_radioModel"
+        android:id="@+id/set_radioSavedFormat"
         android:layout_width="match_parent"
         android:layout_height="70dp">
      	<RadioButton 
-     	    android:id="@+id/set_radioModelA"
+     	    android:id="@+id/set_radioArm"
      	    android:layout_width="match_parent"
      	    android:layout_height="35dp"
-     	    android:text="M模式"/>
+     	    android:text="arm格式"/>
         <RadioButton 
-            android:id="@+id/set_radioModleM"
+            android:id="@+id/set_radioMp3"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:text="A模式"/>
+            android:text="mp3格式"/>
      </RadioGroup>
 	<TextView 
 	    android:id="@+id/setDefault"
@@ -55,16 +55,16 @@
 	    android:layout_height="35dp"
 	    android:text="默认设置"/>
 	<RadioGroup
-        android:id="@+id/set_radioDefault"
+        android:id="@+id/set_radioPath"
         android:layout_width="match_parent"
         android:layout_height="70dp">
      	<RadioButton 
-     	    android:id="@+id/set_radioDefaultSDK"
+     	    android:id="@+id/set_radioSDK"
      	    android:layout_width="match_parent"
      	    android:layout_height="35dp"
      	    android:text="SDK"/>
         <RadioButton 
-            android:id="@+id/set_radioDefaultLocal"
+            android:id="@+id/set_radioNet"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:text="本地"/>

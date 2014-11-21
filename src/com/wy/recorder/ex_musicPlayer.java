@@ -194,6 +194,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 	            layout2.setVisibility(View.INVISIBLE);
+	            musicList();
 			}
 		});
 		delete.setOnClickListener(new OnClickListener() {
@@ -216,6 +217,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 									Toast.makeText(getActivity(), "请选择要操作额选项。", Toast.LENGTH_SHORT);
 									return;
 								}
+								List<Boolean> test = adapter.mChecked;
+								
 								for (int i = 0; i < adapter.mChecked.size(); i++) {
 									if (adapter.mChecked.get(i)) {
 										adapter.mChecked.remove(i);
@@ -223,6 +226,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 										file.delete();
 									}
 								}
+								
 								musicList();
 								//toast.setGravity(Gravity.CENTER, 0, 0); 
 
@@ -234,6 +238,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 							public void onClick(
 									DialogInterface dialog,
 									int whichButton) {
+								List<Boolean> test = adapter.mChecked;
 								for (int i = 0; i < adapter.mChecked.size(); i++) {
 									if (adapter.mChecked.get(i)) {
 										adapter.mChecked.remove(i);
@@ -241,7 +246,9 @@ import android.widget.AdapterView.OnItemLongClickListener;
 								}
 							}
 						}).show();
+				
 	            layout2.setVisibility(View.INVISIBLE);
+	            
 			}
 		});
 	}
@@ -286,7 +293,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 		lv = (ListView)this.getView().findViewById(android.R.id.list);
 		registerForContextMenu(lv);
 		m_playlist.clear();
-		search(m_musicpath,"amr", m_playlist);
+		search(m_musicpath,"", m_playlist);
 		adapter = new MyListAdapter(this.getData());
 		lv.setOnItemLongClickListener(new OnItemLongClickListener(){
 
@@ -554,6 +561,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
                         CheckBox cb = (CheckBox)v;
                         layout2.setVisibility(View.VISIBLE);
                         mChecked.set(p, cb.isChecked());
+                        System.out.println("xxxxx:"+mChecked.get(p));
                     }
                 });
                 

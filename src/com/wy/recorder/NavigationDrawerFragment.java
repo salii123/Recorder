@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 /**
@@ -60,6 +61,9 @@ public class NavigationDrawerFragment extends Fragment {
 	private int mCurrentSelectedPosition = 0;
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
+	
+
+	
 
 	public NavigationDrawerFragment() {
 	}
@@ -80,7 +84,7 @@ public class NavigationDrawerFragment extends Fragment {
 					.getInt(STATE_SELECTED_POSITION);
 			mFromSavedInstanceState = true;
 		}
-
+		
 		// Select either the default item (0) or the last selected item.
 		selectItem(mCurrentSelectedPosition);
 	}
@@ -114,6 +118,7 @@ public class NavigationDrawerFragment extends Fragment {
 						getString(R.string.set),
 						getString(R.string.more)}));
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+		
 		return mDrawerListView;
 	}
 
