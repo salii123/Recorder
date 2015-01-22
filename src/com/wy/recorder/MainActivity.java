@@ -4,7 +4,11 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.kii.cloud.storage.Kii;
+import com.kii.cloud.storage.KiiObject;
+import com.kii.cloud.storage.Kii.Site;
 import com.kubility.demo.MP3Recorder;
 
 import ThreadCase.MergeRecords;
@@ -16,10 +20,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -57,6 +63,7 @@ public class MainActivity extends ActionBarActivity implements
 	private static Button btnDelete;
 	private static ArrayList<String> list;
 	private static ImageView imgRecord;
+	private static ImageView imgPicture;
 	private Fragment fgAbtMore;
 	private Fragment fgAbtSet;
 	FragmentTransaction leftDrawer;
@@ -82,6 +89,13 @@ public class MainActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+	
+		Kii.initialize("75c1d412","65996d76456eb44d5159c6e63165b3a3",Site.US);
+		
+		
+		//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    //StrictMode.setThreadPolicy(policy);
+
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
@@ -93,6 +107,7 @@ public class MainActivity extends ActionBarActivity implements
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 		
+	    
 		activity = this;
 		SharedPreferences sp = PreferenceManager
 				.getDefaultSharedPreferences(activity); 
@@ -253,6 +268,7 @@ public class MainActivity extends ActionBarActivity implements
 		 * fragment.
 		 */
 		private static final String ARG_SECTION_NUMBER = "section_number";
+		protected static final Context MainActivity = null;
 
 //		OnJumpListener jumpListener;
 		
@@ -299,7 +315,7 @@ public class MainActivity extends ActionBarActivity implements
 		}
 		
 		 //button相应事件
-		protected  View.OnClickListener listener = new View.OnClickListener() {
+		View.OnClickListener listener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -316,6 +332,12 @@ public class MainActivity extends ActionBarActivity implements
 							ft.replace(R.id.container, fgPlay);
 							ft.addToBackStack(null);
 							ft.commit();
+							/*Loader load=new Loader();
+							load.loadObjects();*/
+							//Downloader dp=new Downloader(getActivity());                 ///////////////
+//							dp.Downloader(null);                   ////////////////////
+							//dp.loadObjects();
+							
 						}else {
 							AlertDialog.Builder builderDelete = new AlertDialog.Builder(
 									getActivity());
@@ -345,6 +367,9 @@ public class MainActivity extends ActionBarActivity implements
 													ft.replace(R.id.container, fgPlay);
 													ft.addToBackStack(null);
 													ft.commit();
+                                              
+
+
 												}
 											})
 									.setNegativeButton("取消",
@@ -382,11 +407,14 @@ public class MainActivity extends ActionBarActivity implements
 								}
 							}
 							imgRecord.setImageDrawable(getResources().getDrawable(R.drawable.recording));
+							
 							//setAlphaAnimation(imgRecord);
 							click += 1;
 						} else if (click%2 == 1) {   
 							imgRecord.setImageDrawable(getResources().getDrawable(
 									R.drawable.record));
+							
+							
 							btnRun.setBackground(getResources().getDrawable(R.drawable.stop));//暂停
 							if(id != 2131099718){
 								if (mp3Recorder.isRecording()) {
@@ -430,6 +458,7 @@ public class MainActivity extends ActionBarActivity implements
 								}
 							}
 							imgRecord.setImageDrawable(getResources().getDrawable(R.drawable.recording));
+							
 							btnRun.setBackground(getResources().getDrawable(R.drawable.run));
 							//chronometer.setBase(SystemClock.elapsedRealtime() - 10*1000);
 							chronometer.start();
@@ -438,6 +467,7 @@ public class MainActivity extends ActionBarActivity implements
 						break;
 					case R.id.btnSave:
 						imgRecord.setImageDrawable(getResources().getDrawable(R.drawable.record));
+						
 						btnRun.setBackground(getResources().getDrawable(R.drawable.run));
 						if(id != 2131099718){
 							if(mp3Path != null){
@@ -471,6 +501,10 @@ public class MainActivity extends ActionBarActivity implements
 						showDialog();
 						click = 0;
 						chronometer.stop();
+						
+						//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+					  //  StrictMode.setThreadPolicy(policy);
+						KiiCoud.uploadFile(activity, fileMerged.getName());
 //						callRecorder = null;不能置空否则无法改名
 						//chronometer.setBase(SystemClock.elapsedRealtime());
 						break;
@@ -622,7 +656,10 @@ public class MainActivity extends ActionBarActivity implements
 			}).show();
 		}
 		@Override
+		
 		public void onAttach(Activity activity) {
+			//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		    //StrictMode.setThreadPolicy(policy);
 			
 			super.onAttach(activity);
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(

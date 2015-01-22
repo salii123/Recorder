@@ -3,7 +3,7 @@
     android:id="@+id/mainFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffccff"
+    android:background="#33ff66"
     android:clickable="true"
     android:gravity="top"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -11,32 +11,30 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     >
-
-    <Button
-        android:id="@+id/btnRecord"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="120dp"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:background="#ffccff"
-        android:text="@string/main_record"
-        android:textSize="25sp" />
-
-    <Button
-        android:id="@+id/btnPlay"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="120dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:background="#ffccff"
-        android:text="@string/main_play"
-        android:textSize="25sp" />
-
+	    <Button
+	        android:id="@+id/btnRecord"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="120dp"
+	        android:layout_height="30dp"
+	        android:layout_alignParentLeft="true"
+	        android:background="#33ff66"
+	        android:text="@string/main_record"
+	        android:textSize="25sp" />
+	
+	    <Button
+	        android:id="@+id/btnPlay"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="120dp"
+	        android:layout_height="30dp"
+	        android:layout_alignParentRight="true"
+	        android:background="#33ff66"
+	        android:text="@string/main_play"
+	        android:textSize="25sp" />
       <TextView
             android:id="@+id/playPath"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="#ffccff"
+            android:background="#33ff66"
             android:layout_below="@+id/btnPlay"
             android:text="ddddddddddddddd"
             android:textSize="20sp" />
@@ -46,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/playPath"
-        android:layout_above="@+id/stop"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -54,13 +51,17 @@
             android:id="@+id/android:list"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.22"
-            android:background="#ffccff"
+            android:layout_weight="0.18"
+            android:background="#33ff66"
             android:choiceMode="singleChoice"
             android:dividerHeight="1.5dp"
             tools:layout="@layout/m_musicitem" >
         </ListView>
     </LinearLayout>
+	 
+
+
+   
     
      	<!--  <RelativeLayout
             android:id="@+id/AbsoluteLayout02"
@@ -73,30 +74,31 @@
         android:id="@+id/stop"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_above="@+id/seekbar"
-        android:background="@drawable/stop"
-        android:text="停止" >
+        android:background="@drawable/stop">
     </Button>
 
     <Button
         android:id="@+id/start"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_above="@+id/seekbar"
+        android:background="@drawable/start"
         android:layout_centerHorizontal="true"
-        android:text="播放" >
+         >
     </Button>
 
     <Button
         android:id="@+id/pause"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_above="@+id/seekbar"
         android:layout_alignParentRight="true"
-        android:text="暂停" >
+        android:background="@drawable/zanting"
+        >
     </Button>
 
     <SeekBar
@@ -110,12 +112,13 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true" />
-	<RelativeLayout
+
+	        <RelativeLayout
             android:id="@+id/relative"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:background="#ddffdd"
-            android:layout_alignParentBottom="true" 
+            android:layout_alignParentEnd="true"
             android:visibility="gone"
             >
 
@@ -134,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="分享"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/delete"
@@ -146,4 +149,5 @@
                 android:text="|  删除"
                 android:textSize="20sp" />
         </RelativeLayout>
+
 </RelativeLayout>

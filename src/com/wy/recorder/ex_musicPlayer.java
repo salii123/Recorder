@@ -45,7 +45,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
     @SuppressLint("NewApi") 
     private static String getRecordStorageDir() {
 			String path = Environment.getExternalStorageDirectory().toString() +"/recorder/";
-			Log.i("RECORD_DIR", path);
+			Log.e("RECORD_DIR", path);
 			return path;
 		}
     
